@@ -14,8 +14,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "refreejirator.helloWorld",
-        "title": "Hello World"
+        "command": "refreejirator.implement-jira-url",
+        "title": "Implement Jira item"
       }
     ]
   },
@@ -27,8 +27,13 @@
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js"
   },
+  "dependencies": {
+    "axios": "^1.5.1",
+    "jsdom": "^22.1.0"
+  },
   "devDependencies": {
     "@types/vscode": "^1.82.0",
+    "@types/jsdom": "^21.1.3",
     "@types/mocha": "^10.0.2",
     "@types/node": "18.x",
     "@typescript-eslint/eslint-plugin": "^6.7.3",
@@ -40,7 +45,6 @@
     "@vscode/test-electron": "^2.3.4"
   },
   "extensionDependencies": [
-    "atlassian.atlascode",
     "goast-ai.goast"
   ]
 }
