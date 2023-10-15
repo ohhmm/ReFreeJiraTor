@@ -4,6 +4,8 @@ import * as vscode from "vscode";
 
 // Import the implementJiraUrl function from 'implementJiraUrl.ts'
 import { implementJiraUrl } from "./implementJiraUrl";
+// Import the sendToGoast function from 'sendToGoast.ts'
+import { sendToGoast } from "./sendToGoast";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -12,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
   // This line of code will only be executed once when your extension is activated
   console.log('Congratulations, your extension "refreejirator" is now active!');
 
-  context.subscriptions.push(
+context.subscriptions.push(
     vscode.commands.registerCommand(
       "refreejirator.implement-jira-url",
       implementJiraUrl,
