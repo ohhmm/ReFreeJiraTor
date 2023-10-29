@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import * as request from "request";
-import { sendToGoast } from "./sendToGoast";
+import { askCopilotExtension } from "./ai/copilot";
+import { sendToGoast } from "./ai/goast";
 
 const JIRA_REST_API_SUFFIX = "rest/api/2/issue";
 
@@ -76,7 +77,10 @@ export async function implementJiraUrl() {
       vscode.window.showInformationMessage(
         `Sending to goast plugin this: ${description}`,
       );
-      await sendToGoast(description);
+      await Promise.all([
+        sendToGoast(description),
+        askCopilotExtension(description),
+      ]);
 
       // Get branch name
       const branchName = getIssueId(new URL(jira));

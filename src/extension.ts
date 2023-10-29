@@ -5,7 +5,7 @@ import * as vscode from "vscode";
 // Import the implementJiraUrl function from 'implementJiraUrl.ts'
 import { implementJiraUrl } from "./implementJiraUrl";
 // Import the sendToGoast function from 'sendToGoast.ts'
-import { sendToGoast } from "./sendToGoast";
+import { sendToGoast } from "./ai/goast";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
