@@ -73,14 +73,10 @@ export async function implementJiraUrl() {
       const description = fields["description"] || summary;
 
       // call goastgoast.sendMessage with the description as parameter
-      const result = await vscode.commands.executeCommand(
-        `goastgoast.sendMessage`,
-        description,
+      vscode.window.showInformationMessage(
+        `Sending to goast plugin this: ${description}`,
       );
-
-      // const jiraDescription = await getIssueDescription(jira);
-      // Display the Jira description to the user
-      vscode.window.showInformationMessage(`Jira Description: ${description}`);
+      await sendToGoast(description);
 
       // Get branch name
       const branchName = getIssueId(new URL(jira));

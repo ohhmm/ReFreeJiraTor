@@ -14,7 +14,7 @@ export function activate(context: vscode.ExtensionContext) {
   // This line of code will only be executed once when your extension is activated
   console.log('Congratulations, your extension "refreejirator" is now active!');
 
-context.subscriptions.push(
+  context.subscriptions.push(
     vscode.commands.registerCommand(
       "refreejirator.implement-jira-url",
       implementJiraUrl,
