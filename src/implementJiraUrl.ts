@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import * as request from "request";
 import { askCopilotExtension } from "./ai/copilot";
 import { sendToGoast } from "./ai/goast";
+import { sendToCodeium } from "./ai/codeium";
 
 const JIRA_REST_API_SUFFIX = "rest/api/2/issue";
 
@@ -72,14 +73,13 @@ export async function implementJiraUrl() {
     const jiraJsonBody = await getJiraFields(jira, async (fields: any) => {
       const summary = fields["summary"];
       const description = fields["description"] || summary;
-
-      // call goastgoast.sendMessage with the description as parameter
-      vscode.window.showInformationMessage(
-        `Sending to goast plugin this: ${description}`,
-      );
+      
       await Promise.all([
+        vscode.env.clipboard.writeText(description), // copy description to clipboard
+        sendToCodeium(description),
         sendToGoast(description),
         askCopilotExtension(description),
+        vscode.window.showInformationMessage(`Copied to clipboard for Sending to AI plugins this: ${description}`)
       ]);
 
       // Get branch name
