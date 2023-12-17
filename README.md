@@ -1,4 +1,4 @@
-# refreejirator README
+# ReFreeJiraTor README
 
 This is the README for your extension "refreejirator". After writing up a brief description, we recommend including the following sections.
 

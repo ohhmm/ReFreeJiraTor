@@ -1,23 +1,14 @@
 import * as vscode from "vscode";
 import * as request from "request";
+import * as bugs from "./bugtracker/issue";
 import { askCopilotExtension } from "./ai/copilot";
 import { sendToGoast } from "./ai/goast";
 import { sendToCodeium } from "./ai/codeium";
 
-const JIRA_REST_API_SUFFIX = "rest/api/2/issue";
-
-function getIssueId(urlObj: URL) {
-  const path = urlObj.pathname.split("?")[0];
-  const pathParts = path.split("/");
-  const issueId = pathParts[pathParts.length - 1];
-  return issueId;
-}
-
 function convertUrlToRestApiUrl(url: string): string {
-  if (!url.includes(JIRA_REST_API_SUFFIX)) {
-    const urlObj = new URL(url);
-    const issueId = getIssueId(urlObj);
-    return `${urlObj.origin}/${JIRA_REST_API_SUFFIX}/${issueId}`;
+  const urlObj = bugs.newIssueURL(url);
+  if (urlObj && !url.includes(urlObj.restApiSuffix())) {
+    return urlObj.restApiUrl().toString();
   } else {
     return url;
   }
@@ -83,7 +74,7 @@ export async function implementJiraUrl() {
       ]);
 
       // Get branch name
-      const branchName = getIssueId(new URL(jira));
+      const branchName = bugs.newIssueURL(jira).getIssueId();
 
       // Get commit message
       const commitMessage = summary;
