@@ -18,15 +18,33 @@ async function getJiraFieldsFromRestApi(
   restApiUrl: string,
   callback: (fields: any) => void,
 ) {
+  // Placeholder for token refresh logic
+  const token = await getValidToken();
+
   // Make the request to the API
-  const restRequest = request.get(restApiUrl, (error, response, body) => {
-    if (error) {
-      console.error(error);
-      throw new Error("Error while fetching Jira fields");
+  const restRequest = request.get(
+    {
+      url: restApiUrl,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+    (error, response, body) => {
+      if (error) {
+        console.error(error);
+        throw new Error("Error while fetching Jira fields");
+      }
+      const jsonBody = JSON.parse(body.toString());
+      callback(jsonBody["fields"]);
     }
-    const jsonBody = JSON.parse(body.toString());
-    callback(jsonBody["fields"]);
-  });
+  );
+}
+
+async function getValidToken(): Promise<string> {
+  // Placeholder function to get a valid token
+  // This function should check if the current token is valid and refresh it if necessary
+  // For now, it returns a dummy token
+  return "your_access_token_here";
 }
 
 async function getJiraFields(url: string, callback: (fields: any) => void) {
@@ -64,7 +82,7 @@ export async function implementJiraUrl() {
     const jiraJsonBody = await getJiraFields(jira, async (fields: any) => {
       const summary = fields["summary"];
       const description = fields["description"] || summary;
-      
+
       await Promise.all([
         vscode.env.clipboard.writeText(description), // copy description to clipboard
         sendToCodeium(description),
