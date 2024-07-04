@@ -41,10 +41,67 @@ async function getJiraFieldsFromRestApi(
 }
 
 async function getValidToken(): Promise<string> {
-  // Placeholder function to get a valid token
+  // Pseudocode for token validation and refresh
   // This function should check if the current token is valid and refresh it if necessary
-  // For now, it returns a dummy token
-  return "your_access_token_here";
+
+  // Retrieve the stored refresh token, client ID, and client secret
+  const refreshToken = getStoredRefreshToken();
+  const clientId = getClientId();
+  const clientSecret = getClientSecret();
+
+  // Construct the POST request payload
+  const payload = {
+    grant_type: "refresh_token",
+    client_id: clientId,
+    client_secret: clientSecret,
+    refresh_token: refreshToken,
+  };
+
+  // Make the POST request to the Jira token URL
+  const response = await fetch('https://auth.atlassian.com/oauth/token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  });
+
+  // Parse the response
+  if (response.ok) {
+    const data = await response.json();
+    // Store the new access token and refresh token securely
+    storeAccessToken(data.access_token);
+    storeRefreshToken(data.refresh_token);
+    // Return the new access token
+    return data.access_token;
+  } else {
+    // Handle errors, such as invalid refresh token or network issues
+    throw new Error('Failed to refresh Jira access token');
+  }
+}
+
+// Placeholder functions for secure storage and retrieval of credentials and tokens
+function getStoredRefreshToken(): string {
+  // Retrieve the stored refresh token from secure storage
+  return "your_stored_refresh_token";
+}
+
+function getClientId(): string {
+  // Retrieve the client ID from secure storage
+  return "your_client_id";
+}
+
+function getClientSecret(): string {
+  // Retrieve the client secret from secure storage
+  return "your_client_secret";
+}
+
+function storeAccessToken(token: string): void {
+  // Store the new access token in secure storage
+}
+
+function storeRefreshToken(token: string): void {
+  // Store the new refresh token in secure storage
 }
 
 async function getJiraFields(url: string, callback: (fields: any) => void) {
