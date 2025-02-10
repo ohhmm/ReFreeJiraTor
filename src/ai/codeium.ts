@@ -9,9 +9,9 @@ export async function sendToCodeium(command: string) {
 
     await extension.activate();
     return Promise.all([
-       vscode.commands.executeCommand("codeium.chatPanelView.focus",command),
-       vscode.commands.executeCommand("codeium.openCodeiumCommand", command),
-       vscode.commands.executeCommand("codeium.submitCodeiumCommand", command),
+      vscode.commands.executeCommand("codeium.chatPanelView.focus", command),
+      vscode.commands.executeCommand("codeium.openCodeiumCommand", command),
+      vscode.commands.executeCommand("codeium.submitCodeiumCommand", command),
     ]);
   } catch (error) {
     console.error("Error sending query to Codeium:", error);

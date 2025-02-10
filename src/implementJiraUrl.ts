@@ -64,13 +64,15 @@ export async function implementJiraUrl() {
     const jiraJsonBody = await getJiraFields(jira, async (fields: any) => {
       const summary = fields["summary"];
       const description = fields["description"] || summary;
-      
+
       await Promise.all([
         vscode.env.clipboard.writeText(description), // copy description to clipboard
         sendToCodeium(description),
         sendToGoast(description),
         askCopilotExtension(description),
-        vscode.window.showInformationMessage(`Copied to clipboard for Sending to AI plugins this: ${description}`)
+        vscode.window.showInformationMessage(
+          `Copied to clipboard for Sending to AI plugins this: ${description}`,
+        ),
       ]);
 
       // Get branch name

@@ -1,22 +1,19 @@
+import * as bugs from "./bugtracker";
 
-import * as bugs from './bugtracker';
+export class JiraIssueURL extends bugs.BugtrackerIssueURL<JiraIssueURL> {
+  constructor(input: string, base?: string | URL) {
+    super(input, base);
+  }
 
-export class JiraIssueURL
-    extends bugs.BugtrackerIssueURL<JiraIssueURL>
-{
-    constructor(input: string, base?: string | URL) {
-        super(input, base);
-    }
+  getHostName(): string {
+    return this.hostname;
+  }
 
-    getHostName(): string {
-        return this.hostname;
-    }
+  restApiHost(): string {
+    return this.hostname;
+  }
 
-    restApiHost(): string {
-        return this.hostname;
-    }
-
-    restApiSuffix(): string {
-        return "rest/api/2/issue";
-    }
+  restApiSuffix(): string {
+    return "rest/api/2/issue";
+  }
 }
